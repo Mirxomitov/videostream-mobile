@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import '../../../core/network/failure.dart';
+import '../../../core/api/failure.dart';
 import 'upload_response.dart';
 
 class UploadRepository {

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../../core/network/failure.dart';
+import '../../../core/api/failure.dart';
 import '../domain/auth_models.dart';
 
 class AuthRepository {

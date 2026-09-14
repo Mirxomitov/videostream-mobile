@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
-import '../network/api_client.dart';
-import '../storage/token_storage.dart';
-import '../../features/auth/data/auth_repository.dart';
-import '../../features/auth/presentation/auth_bloc.dart';
-import '../../features/feed/data/video_repository.dart';
-import '../../features/feed/presentation/feed_bloc.dart';
-import '../../features/upload/data/upload_repository.dart';
-import '../../features/upload/presentation/upload_bloc.dart';
+import '../api/api_client.dart';
+import '../cache/token_storage.dart';
+import '../../presentation/auth/data/auth_repository.dart';
+import '../../presentation/auth/cubit/auth_cubit.dart';
+import '../../presentation/home/data/video_repository.dart';
+import '../../presentation/home/cubit/feed_cubit.dart';
+import '../../presentation/upload/data/upload_repository.dart';
+import '../../presentation/upload/cubit/upload_cubit.dart';
 
 final sl = GetIt.instance;
 Future<void> setupDependencies() async {

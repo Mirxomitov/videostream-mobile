@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import '../../feed/domain/video.dart';
+import '../../home/domain/video.dart';
 
 @RoutePage()
 class PlayerPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import '../domain/video.dart';
-import '../../../core/network/failure.dart';
+import '../../../core/api/failure.dart';
 
 class VideoRepository {
   VideoRepository(this._dio);

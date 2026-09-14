@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/auth_repository.dart';
-import '../../../core/storage/token_storage.dart';
+import '../../../core/cache/token_storage.dart';
 
 sealed class AuthState extends Equatable {
   const AuthState();

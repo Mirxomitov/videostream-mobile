@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../features/auth/presentation/auth_screens.dart';
-import '../../features/feed/presentation/feed_page.dart';
-import '../../features/feed/domain/video.dart';
-import '../../features/player/presentation/player_page.dart';
-import '../../features/upload/presentation/upload_page.dart';
+import '../../presentation/auth/screens/auth_screens.dart';
+import '../../presentation/home/screens/home_screen.dart';
+import '../../presentation/home/domain/video.dart';
+import '../../presentation/player/screens/player_page.dart';
+import '../../presentation/upload/screens/upload_screen.dart';
 import '../di/service_locator.dart';
-import '../storage/token_storage.dart';
+import '../cache/token_storage.dart';
 part 'app_router.gr.dart';
 
 @AutoRouterConfig()
