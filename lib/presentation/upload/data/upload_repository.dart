@@ -53,4 +53,22 @@ class UploadRepository {
       throw Failure.from(e);
     }
   }
+
+  Future<void> updateMetadata(
+    String videoId,
+    String? category,
+    List<String> tags,
+  ) async {
+    try {
+      await _dio.patch(
+        '/videos/$videoId',
+        data: {
+          if (category != null && category.isNotEmpty) 'category': category,
+          if (tags.isNotEmpty) 'tags': tags,
+        },
+      );
+    } catch (e) {
+      throw Failure.from(e);
+    }
+  }
 }

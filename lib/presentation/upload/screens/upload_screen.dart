@@ -13,10 +13,14 @@ class UploadPage extends StatefulWidget {
 class _UploadPageState extends State<UploadPage> {
   final title = TextEditingController();
   final description = TextEditingController();
+  final category = TextEditingController();
+  final tags = TextEditingController();
   @override
   void dispose() {
     title.dispose();
     description.dispose();
+    category.dispose();
+    tags.dispose();
     super.dispose();
   }
 
@@ -55,6 +59,22 @@ class _UploadPageState extends State<UploadPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: category,
+                decoration: const InputDecoration(
+                  labelText: 'Category (optional)',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: tags,
+                decoration: const InputDecoration(
+                  labelText: 'Tags, comma separated',
+                  border: OutlineInputBorder(),
+                ),
+              ),
               const SizedBox(height: 20),
               OutlinedButton.icon(
                 onPressed: uploading
@@ -85,6 +105,12 @@ class _UploadPageState extends State<UploadPage> {
                     ? () => context.read<UploadCubit>().upload(
                         title.text.trim(),
                         description.text.trim(),
+                        category: category.text.trim(),
+                        tags: tags.text
+                            .split(',')
+                            .map((tag) => tag.trim())
+                            .where((tag) => tag.isNotEmpty)
+                            .toList(),
                       )
                     : null,
                 child: const Text('Upload'),

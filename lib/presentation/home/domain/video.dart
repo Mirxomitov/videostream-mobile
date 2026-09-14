@@ -6,16 +6,30 @@ class Video {
     this.hlsUrl,
     this.thumbnailUrl,
     this.duration,
-    this.muxPlaybackId,
+    this.category,
+    this.tags = const [],
+    this.likesCount = 0,
+    this.viewsCount = 0,
   });
   final String id, title;
-  final String? description, hlsUrl, thumbnailUrl, muxPlaybackId;
+  final String? description, hlsUrl, thumbnailUrl, category;
   final double? duration;
-  String? get playbackUrl =>
-      hlsUrl ??
-      (muxPlaybackId == null
-          ? null
-          : 'https://stream.mux.com/$muxPlaybackId.m3u8');
+  final List<String> tags;
+  final int likesCount, viewsCount;
+  String? get playbackUrl => hlsUrl;
+
+  Video copyWith({int? likesCount, int? viewsCount}) => Video(
+    id: id,
+    title: title,
+    description: description,
+    hlsUrl: hlsUrl,
+    thumbnailUrl: thumbnailUrl,
+    duration: duration,
+    category: category,
+    tags: tags,
+    likesCount: likesCount ?? this.likesCount,
+    viewsCount: viewsCount ?? this.viewsCount,
+  );
   factory Video.fromJson(Map<String, dynamic> j) => Video(
     id: j['_id'] as String,
     title: j['title'] as String? ?? 'Untitled',
@@ -23,6 +37,9 @@ class Video {
     hlsUrl: j['hls_url'] as String?,
     thumbnailUrl: j['thumbnail_url'] as String?,
     duration: (j['duration'] as num?)?.toDouble(),
-    muxPlaybackId: j['mux_playback_id'] as String?,
+    category: j['category'] as String?,
+    tags: (j['tags'] as List? ?? const []).cast<String>(),
+    likesCount: (j['likes_count'] as num?)?.toInt() ?? 0,
+    viewsCount: (j['views_count'] as num?)?.toInt() ?? 0,
   );
 }

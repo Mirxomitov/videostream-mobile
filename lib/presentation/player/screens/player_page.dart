@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../home/domain/video.dart';
+import '../../../core/di/service_locator.dart';
+import '../../home/data/video_repository.dart';
+import '../../comment/screens/comments_page.dart';
 
 @RoutePage()
 class PlayerPage extends StatefulWidget {
@@ -19,6 +24,7 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
     super.initState();
+    unawaited(sl<VideoRepository>().recordView(widget.video.id));
     _init();
   }
 
@@ -50,6 +56,10 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   void dispose() {
+    final position = videoController?.value.position.inSeconds.toDouble() ?? 0;
+    if (position > 0) {
+      unawaited(sl<VideoRepository>().saveHistory(widget.video.id, position));
+    }
     chewieController?.dispose();
     videoController?.dispose();
     super.dispose();
@@ -57,7 +67,19 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(widget.video.title)),
+    appBar: AppBar(
+      title: Text(widget.video.title),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.comment_outlined),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => CommentsPage(videoId: widget.video.id),
+            ),
+          ),
+        ),
+      ],
+    ),
     body: Center(
       child: error != null
           ? Text(error!)

@@ -50,7 +50,12 @@ class UploadCubit extends Cubit<UploadState> {
     }
   }
 
-  Future<void> upload(String title, String? description) async {
+  Future<void> upload(
+    String title,
+    String? description, {
+    String? category,
+    List<String> tags = const [],
+  }) async {
     final current = state;
     if (current is! UploadReady) return;
     try {
@@ -60,6 +65,7 @@ class UploadCubit extends Cubit<UploadState> {
         current.file,
         (sent, total) => emit(Uploading(total <= 0 ? 0 : sent / total)),
       );
+      await _repo.updateMetadata(response.videoId, category, tags);
       await _repo.complete(response.videoId);
       emit(UploadDone());
     } catch (e) {

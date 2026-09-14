@@ -9,6 +9,10 @@ import '../../presentation/home/data/video_repository.dart';
 import '../../presentation/home/cubit/feed_cubit.dart';
 import '../../presentation/upload/data/upload_repository.dart';
 import '../../presentation/upload/cubit/upload_cubit.dart';
+import '../../presentation/comment/data/comment_repository.dart';
+import '../../presentation/comment/cubit/comment_cubit.dart';
+import '../../presentation/profile/data/profile_repository.dart';
+import '../../presentation/profile/cubit/profile_cubit.dart';
 
 final sl = GetIt.instance;
 Future<void> setupDependencies() async {
@@ -20,7 +24,11 @@ Future<void> setupDependencies() async {
   sl.registerLazySingleton(() => AuthRepository(sl()));
   sl.registerLazySingleton(() => VideoRepository(sl()));
   sl.registerLazySingleton(() => UploadRepository(sl()));
+  sl.registerLazySingleton(() => CommentRepository(sl()));
+  sl.registerLazySingleton(() => ProfileRepository(sl()));
   sl.registerFactory(() => AuthCubit(sl(), sl()));
   sl.registerFactory(() => FeedCubit(sl()));
   sl.registerFactory(() => UploadCubit(sl()));
+  sl.registerFactory(() => CommentCubit(sl()));
+  sl.registerFactory(() => ProfileCubit(sl()));
 }
