@@ -16,7 +16,8 @@ class ApiClient {
       InterceptorsWrapper(
         onRequest: (options, handler) {
           final token = storage.token;
-          if (token != null && !options.path.startsWith('/auth/')) {
+          final skipAuth = options.extra['skipAuth'] == true;
+          if (token != null && !skipAuth && !options.path.startsWith('/auth/')) {
             options.headers['Authorization'] = 'Bearer $token';
           }
           handler.next(options);

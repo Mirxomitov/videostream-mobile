@@ -13,10 +13,24 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
+  final scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     context.read<FeedCubit>().load();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 300) {
+        context.read<FeedCubit>().loadMore();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,7 +61,8 @@ class _FeedPageState extends State<FeedPage> {
               ],
             );
           }
-          final videos = (state as FeedLoaded).videos;
+          final loaded = state as FeedLoaded;
+          final videos = loaded.videos;
           if (videos.isEmpty) {
             return ListView(
               children: [
@@ -59,9 +74,16 @@ class _FeedPageState extends State<FeedPage> {
             );
           }
           return ListView.builder(
+            controller: scrollController,
             padding: const EdgeInsets.all(12),
-            itemCount: videos.length,
+            itemCount: videos.length + (loaded.isLoadingMore ? 1 : 0),
             itemBuilder: (context, index) {
+              if (index == videos.length) {
+                return const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
               final video = videos[index];
               return Card(
                 clipBehavior: Clip.antiAlias,

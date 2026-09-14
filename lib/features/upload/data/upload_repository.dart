@@ -32,6 +32,7 @@ class UploadRepository {
         url,
         data: file.openRead(),
         options: Options(
+          extra: {'skipAuth': true},
           headers: {
             'Content-Type': 'video/mp4',
             'Content-Length': '${await file.length()}',
@@ -40,6 +41,14 @@ class UploadRepository {
         ),
         onSendProgress: progress,
       );
+    } catch (e) {
+      throw Failure.from(e);
+    }
+  }
+
+  Future<void> complete(String videoId) async {
+    try {
+      await _dio.post('/videos/$videoId/complete');
     } catch (e) {
       throw Failure.from(e);
     }

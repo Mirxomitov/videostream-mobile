@@ -60,6 +60,7 @@ class UploadCubit extends Cubit<UploadState> {
         current.file,
         (sent, total) => emit(Uploading(total <= 0 ? 0 : sent / total)),
       );
+      await _repo.complete(response.videoId);
       emit(UploadDone());
     } catch (e) {
       emit(UploadError(e.toString()));
