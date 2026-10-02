@@ -65,8 +65,13 @@ class UploadCubit extends Cubit<UploadState> {
         current.file,
         (sent, total) => emit(Uploading(total <= 0 ? 0 : sent / total)),
       );
-      await _repo.updateMetadata(response.videoId, category, tags);
+      // Kick off transcoding as soon as the bytes land, so a later metadata
+      // failure can never leave the video stuck un-transcoded.
       await _repo.complete(response.videoId);
+      // Metadata is best-effort: a lost category/tag shouldn't fail the upload.
+      try {
+        await _repo.updateMetadata(response.videoId, category, tags);
+      } catch (_) {}
       emit(UploadDone());
     } catch (e) {
       emit(UploadError(e.toString()));

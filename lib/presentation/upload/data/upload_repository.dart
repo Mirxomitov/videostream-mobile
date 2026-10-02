@@ -33,6 +33,9 @@ class UploadRepository {
         data: file.openRead(),
         options: Options(
           extra: {'skipAuth': true},
+          // Large files over a phone connection need room; defaults are too tight.
+          sendTimeout: const Duration(minutes: 10),
+          receiveTimeout: const Duration(minutes: 2),
           headers: {
             'Content-Type': 'video/mp4',
             'Content-Length': '${await file.length()}',
